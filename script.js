@@ -489,13 +489,6 @@ var Fe2 = new (class {
             },
             createPanel: () => {
                 //look for the panel; if it doesnt exist, create one
-                function compile(errors) {
-                    //compile error objects into HTML lists
-                    let o = l.CE('div');
-                    errors.forEach(()=>{
-                        
-                    })
-                }
                 if (!l('#Fe2_Panel')) {
                     let title;
                     let body;
@@ -506,33 +499,76 @@ var Fe2 = new (class {
                         body.setattr({
                             id:"panelbody"
                         })
+                        let icon = l.CE("i");
+                        icon.setattr({
+                            class:"bi bi-exclamation-circle"
+                        });
+                        let text = l.CE("h2");
+                        text.apCh("Info")
+                        let icon1 = l.CE('i');
+                        icon1.setattr({
+                            class:"bi bi-exclamation-triangle"
+                        })
+                        let text1 = l.CE("h2");
+                        text1.apCh("Warnings")
+                        let icon2 = l.CE('i');
+                        icon2.setattr({
+                            class:"bi bi-exclamation-octagon"
+                        })
+                        let text2 = l.CE("h2");
+                        text2.apCh("Errors")
                         body.apCh(
-                            bs.callout("info","Info",[""])//will do later
-                        )
-                        if (self.files.get(self.files.current).errors) {
-                            body.apCh(
-                                bs.callout("warning","Warnings",),
-                                bs.callout("danger","Errors",)
-                            );
-                            
-                        }
+                            bs.callout("info",[icon.text],[""]),//will do later
+                                bs.callout("warning",[icon1,text],["No warnings detected."]),
+                                bs.callout("danger",[icon2,text2],["No errors detected"])
+                        );
+                        //done.
                    } else if (langd.cmdetect(this.files.current).toLowerCase()==="css") {
                         //if CSS
                         title = "Stylelint";
                         body = l.CE('div');
+                        body.setattr({
+                            id:"panelbody"
+                        });
+                        let text = l.CE("h2");
+                        text.apCh("Errors");
+                        let icon = l.CE("i");
+                        icon.setattr({
+                            class:"bi bi-exclamation-circle"
+                        });
+                        body.apCh(
+                            bs.callout("danger",[icon,text],["No errors detected"])
+                        );
                     } else if (langd.cmdetect(this.files.current).toLowerCase()==="markdown") {
                         //if Markdown
                         title = "Markdown viewer";
-                        body = l.CE('div')
+                        body = l.CE('div');
                     } else return null;
                     this.panel = bs.offcanvas(title,body);
+                    this.updatePanel();
                }
             },
             updatePanel: () => {
-                
+                function compile(errors) {
+                    //compile error objects into HTML lists
+                    let body = this.panel.l("#panelbody");
+                    let eco = body.l(".callout.callout-danger");
+                    let wco = body.l(".callout.callout-warning");
+                    if (eco || wco) {
+                        let o = l.CE('div');
+                        errors.forEach(()=>{
+                        
+                            //parse errors
+                        
+                        });
+                    }
+                }
             },
             removePanel: () => {
-                
+                if (this.panel) {
+                    this.panel.remove();
+                    this.panel = undefined;
+                }
             }
         };
         //generating code for newfile button...
