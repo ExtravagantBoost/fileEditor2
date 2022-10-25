@@ -534,35 +534,79 @@ var Fe2 = new (class {
                         text.apCh("Errors");
                         let icon = l.CE("i");
                         icon.setattr({
-                            class:"bi bi-exclamation-circle"
+                            class:"bi bi-exclamation-octagon"
+                        });
+                        let text1 = l.CE("h2");
+                        text1.apCh("Warnings");
+                        let icon1 = l.CE("i");
+                        icon1.setattr({
+                            class:"bi bi-exclamation-triangle"
                         });
                         body.apCh(
+                            bs.callout("danger",[icon1,text1],["No warnings detected"]),
                             bs.callout("danger",[icon,text],["No errors detected"])
                         );
                     } else if (langd.cmdetect(this.files.current).toLowerCase()==="markdown") {
                         //if Markdown
                         title = "Markdown viewer";
                         body = l.CE('div');
+                        body.setattr({
+                            id:"panelbody"
+                        })
+                        body.apCh({
+                            div:[],
+                            style:{
+                                width:"100%",
+                                height:"500px", 
+                                overflow:'scroll',
+                                background:"white",
+
+                            },
+                            id:"markdownviewer"
+                        })
                     } else return null;
                     this.panel = bs.offcanvas(title,body);
                     this.updatePanel();
                }
             },
             updatePanel: () => {
-                function compile(errors) {
+                function compile(mode) {
                     //compile error objects into HTML lists
                     let body = this.panel.l("#panelbody");
-                    let eco = body.l(".callout.callout-danger");
-                    let wco = body.l(".callout.callout-warning");
-                    if (eco || wco) {
-                        let o = l.CE('div');
-                        errors.forEach(()=>{
-                        
-                            //parse errors
-                        
-                        });
+                    let eco,wco,mkdn;
+                    if (mode === "javascript") {
+                        eco = body.l(".callout.callout-danger");
+                        wco = body.l(".callout.callout-warning");
+                        let warnlist = l.CE('ul')
+                        warnlist.setattr({
+                            class:"list-group list-group-flush"
+                        })
+                        let danglist = l.CE('ul')
+                        danglist.setattr({
+                            class:"list-group list-group-flush"
+                        })
+                        JSHINT.errors.forEach((error)=>{
+                            //populating lists
+                            let item;
+                            if (error.severity === "warning") {
+                                item = l.CE('li');
+                                item.setattr({
+                                    class:"list-group-item"
+                                })
+                                item.apCh(error.line + " ");
+                                item.apCh(error.message);
+                                
+                            }
+                        })
+                    } else if (mode === "css") {
+                        eco = body.l(".callout.callout-danger");
+                        setTimeout(() => {},500)
+                    } else if (mode === "markdown") {
+                        mkdn = body.l("#markdownviewer");
+                        mkdn.innerHTML = self.mdp(self.editor.getvalue())
                     }
                 }
+                compile(self.editor.mode)
             },
             removePanel: () => {
                 if (this.panel) {
@@ -731,6 +775,10 @@ var Fe2 = new (class {
                 if (tr.docChanged) {
                     files.update(files.current, tr.newDoc.toString())
                     WS.send("Fe2.files", AC3123);
+                }
+                if (self._p_.panel) {
+                    self._p_.updatePanel();
+
                 }
                 return {};
             });
