@@ -491,12 +491,40 @@ var Fe2 = new (class {
                 //look for the panel; if it doesnt exist, create one
                 if (!l('#Fe2_Panel')) {
                     let title;
-                    let body;
+                    let body = l.CE('div');
+                    body.apCh(
+                        { div:[
+                            {
+                                div:[
+                                    {
+                                        button:[{img:[],src:"./icons/prettier-duotone.png"},"Beautify"],
+                                        on:{
+                                            click() {
+                                                console.log("click.")
+                                            }
+                                        }
+                                    },
+                                    {
+                                        button:["Minify"],
+                                        on:{
+                                            click() {
+                                                console.log("click..")
+                                            }
+                                        }
+                                    }
+                                ],
+                                class:"row"
+                            }
+                        ],
+                        class:"container-fluid text-center"
+                    }
+                    )
+                    let body1;
                     if (langd.cmdetect(this.files.current).toLowerCase()==="javascript") {
                         //if Javascript
                         title = "JSHINT";
-                        body = l.CE('div');
-                        body.setattr({
+                        body1 = l.CE('div');
+                        body1.setattr({
                             id:"panelbody"
                         })
                         let icon = l.CE("i");
@@ -517,7 +545,7 @@ var Fe2 = new (class {
                         })
                         let text2 = l.CE("h2");
                         text2.apCh("Errors")
-                        body.apCh(
+                        body1.apCh(
                             bs.callout("info",[icon.text],[""]),//will do later
                                 bs.callout("warning",[icon1,text],["No warnings detected."]),
                                 bs.callout("danger",[icon2,text2],["No errors detected"])
@@ -526,8 +554,8 @@ var Fe2 = new (class {
                    } else if (langd.cmdetect(this.files.current).toLowerCase()==="css") {
                         //if CSS
                         title = "Stylelint";
-                        body = l.CE('div');
-                        body.setattr({
+                        body1 = l.CE('div');
+                        body1.setattr({
                             id:"panelbody"
                         });
                         let text = l.CE("h2");
@@ -542,18 +570,18 @@ var Fe2 = new (class {
                         icon1.setattr({
                             class:"bi bi-exclamation-triangle"
                         });
-                        body.apCh(
+                        body1.apCh(
                             bs.callout("danger",[icon1,text1],["No warnings detected"]),
                             bs.callout("danger",[icon,text],["No errors detected"])
                         );
                     } else if (langd.cmdetect(this.files.current).toLowerCase()==="markdown") {
                         //if Markdown
                         title = "Markdown viewer";
-                        body = l.CE('div');
-                        body.setattr({
+                        body1 = l.CE('div');
+                        body1.setattr({
                             id:"panelbody"
                         })
-                        body.apCh({
+                        body1.apCh({
                             div:[],
                             style:{
                                 width:"100%",
@@ -564,7 +592,8 @@ var Fe2 = new (class {
                             },
                             id:"markdownviewer"
                         })
-                    } else return null;
+                    }
+                    if (body1) body.apCh(body1)
                     this.panel = bs.offcanvas(title,body);
                     this.updatePanel();
                }
@@ -574,33 +603,62 @@ var Fe2 = new (class {
                     //compile error objects into HTML lists
                     let body = this.panel.l("#panelbody");
                     let eco,wco,mkdn;
+                    let warnlist = l.CE('div')
+                        warnlist.setattr({
+                            class:"list-group list-group-flush list-group-warn"
+                        })
+                        let danglist = l.CE('div')
+                        danglist.setattr({
+                            class:"list-group list-group-flush list-group-err"
+                        })
+                        function createtip(tip) {
+                            let tipv = l.CE("div");
+                            tipv.setattr({
+                                class:"indicator"
+                            })
+                            tipv.apCh(tip);
+                            return tipv
+                        }
                     if (mode === "javascript") {
                         eco = body.l(".callout.callout-danger");
                         wco = body.l(".callout.callout-warning");
-                        let warnlist = l.CE('ul')
-                        warnlist.setattr({
-                            class:"list-group list-group-flush"
-                        })
-                        let danglist = l.CE('ul')
-                        danglist.setattr({
-                            class:"list-group list-group-flush"
-                        })
+                        
                         JSHINT.errors.forEach((error)=>{
                             //populating lists
                             let item;
+
+                            item = l.CE('div');
+                            item.setattr({
+                                class:"list-group-item"
+                            })
+                            item.apCh(createtip(`At ${error.line}`),error.message);
                             if (error.severity === "warning") {
-                                item = l.CE('li');
-                                item.setattr({
-                                    class:"list-group-item"
-                                })
-                                item.apCh(error.line + " ");
-                                item.apCh(error.message);
+                                warnlist.apCh(item);
                                 
+                            } else if (error.severity === "error"){
+                                danglist.apCh(item);
                             }
                         })
                     } else if (mode === "css") {
                         eco = body.l(".callout.callout-danger");
-                        setTimeout(() => {},500)
+                        //wait for Stylelint to callback with a value b/c of its promise state
+                        setTimeout(() => {
+                            stylelint.errors.forEach((error)=>{
+                                let item;
+                                item = l.CE('div');
+                                    item.setattr({
+                                        class:"list-group-item"
+                                    })
+                                    item.apCh(createtip(`At ${error.line}`),error.message," ",{small:[error.rule]});
+                                if (error.severity === "warning") {
+                                    
+                                    warnlist.apCh(item)
+                                } else {
+                                    //filter unsupported errors
+                                    danglist.apCh(item)
+                                }
+                            })
+                        },500)
                     } else if (mode === "markdown") {
                         mkdn = body.l("#markdownviewer");
                         mkdn.innerHTML = self.mdp(self.editor.getvalue())
@@ -808,6 +866,7 @@ var Fe2 = new (class {
             let result = writer.render(parsed); // result is a String
             return result;
         };
+        self._p_.createPanel()
     }
 })();
 
