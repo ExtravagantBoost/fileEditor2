@@ -114,7 +114,8 @@
             this.dispatch([]);//brute force the editor to refresh as CM.refresh only exists on CM5
         };
         cm.getvalue = function(lineSep = '\n') {
-            return this.state.doc.join(linesep);
+            //console.log(this.state.doc)
+            return this.state.doc.text.join(lineSep);
         };
         cm.getSelection = function() {
             return this.state.sliceDoc(

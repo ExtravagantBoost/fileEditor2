@@ -203,7 +203,8 @@ const bs = {
             "light",
             "dark",
         ]
-        if (!(style in styles)) throw new Error("Style that was supplied does not exist, try another one");
+        
+        if (styles.indexOf(style)>-1) {} else throw new Error("Style that was supplied does not exist, try another one (recieved '"+style+"'");
         if (typeof title=== undefined) throw new Error("Content for title is not supplied");
         if (typeof title === "function"/*check if function, then run*/) title = title();
         if (typeof title === "string") {
