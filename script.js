@@ -596,7 +596,7 @@ var Fe2 = new (class {
                     button.setattr({
                       class:"btn btn-dark position-fixed top-50 panel-open",
                       style:{
-                        right:"-1px"
+                        right:"-4px"
                       },
                       on: {
                         click() {
@@ -605,9 +605,11 @@ var Fe2 = new (class {
                       }
                     });
                     button.apCh(
+                
                       {
                         i:[],
-                        class:"bi bi-cevron-left"
+                        class:"bi bi-chevron-left",
+                       
                       },
                       {
                         div:[
