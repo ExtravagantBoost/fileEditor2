@@ -591,6 +591,32 @@ var Fe2 = new (class {
                         id: "Fe2_Panel"
                     })
                     self._p_.updatePanel();
+                    //button creation
+                    let button = l.CE('button');
+                    button.setattr({
+                      class:"btn btn-dark position-fixed top-50 panel-open",
+                      style:{
+                        right:"-1px"
+                      },
+                      on: {
+                        click() {
+                          self._p_.panel.show() //show panel
+                        }
+                      }
+                    });
+                    button.apCh(
+                      {
+                        i:[],
+                        class:"bi bi-cevron-left"
+                      },
+                      {
+                        div:[
+                          /*framework for error/warning/info indicators*/
+                        ],
+                        class:"translate-middle"
+                      }
+                    );
+                    document.body.apCh(button)
                 }
             },
             updatePanel: () => {
