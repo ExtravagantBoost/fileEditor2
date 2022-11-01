@@ -845,7 +845,10 @@ var Fe2 = new (class {
         const { F2Hint } = require("@Fe2/hintr");
         const { indentationMarkers } = require("@replit/indent-markers");
         const { color } = require("@uiw/color-extension");
-        let modifier = EditorView.theme({
+        const terserify = (code) => {
+            Terser.minify(code);
+        }
+            let modifier = EditorView.theme({
             "&": {
                 height: "100%",
             },
