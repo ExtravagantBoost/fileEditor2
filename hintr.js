@@ -43,7 +43,11 @@
             //since this module will partially rely on langchanger.js why not check if editorview has the property 'mode'
             mode = view.modename.toLowerCase();
             //console.log(mode)
-            if (mode == 'javascript'|| mode =='css') {} else {return []}//return nothing because the mode is not javascript and the hinting function is only made for JS
+            if (mode == 'javascript'|| mode =='css') {
+
+            } else {
+                return []
+            }//return nothing because the mode is not javascript and the hinting function is only made for JS
         }
         JSHINT(
             view.state.doc.toString(),
