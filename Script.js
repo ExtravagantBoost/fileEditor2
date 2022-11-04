@@ -14,7 +14,6 @@ let presetelements = {
             class: ["btn-group", "col", "col-auto", "me-1", "ms-1"],
             style: {
                 display: "inline-block",
-                "user-select":"none"
             },
             on: {
                 "show.bs.dropdown": () => {
@@ -47,22 +46,18 @@ let presetelements = {
             {
                 button: [btn1 || "placeholder"],
                 type: "button",
-                class: ["btn", "btn-outline-file", "border-end-0"],
+                class: ["btn", "btn-outline-primary", "border-end-0"],
 
                 "data-bs-toggle": "tooltip",
                 "data-bs-title": "switch to " + btn1,
                 on: {
                     click: (event) => {
-                        try {
-                        let fi = ret.l("button").childNodes[0].wholeText;
-                            console.log(fi)
+                        let fi = ret.l("button").childNodes[1].wholeText;
+                        
                         if (!(Fe2.files.current === fi)) {
                             Fe2.files.current = fi;
                         } else {
                             //console.log('already selected ')
-                        }
-                        } catch(e) {
-                            console.log(e)
                         }
                     },
                 },
@@ -78,21 +73,21 @@ let presetelements = {
                         i: [],
                         class: "bi bi-three-dots-vertical",
                         style: {
-                            "margin-left": "-3px",
-                            "margin-right": "-3px"
+                            "margin-left": "-10px",
+                            "margin-right": "-10px"
                         }
                     }
                 ],
                 type: "button",
                 class:
-                    "btn btn-outline-file border-start-0",
+                    "btn btn-outline-primary border-start-0",
                 "data-bs-toggle": "dropdown",
                 "aria-expanded": false,
                 style:{
                     "padding-left":"0.5625rem",
                     "padding-right":"0.5625rem",
-                    "border-top-right-radius":"0.5rem",
-                    "border-bottom-right-radius":"0.5rem"
+                    "border-top-right-radius":"0.375rem",
+                    "border-bottom-right-radius":"0.375rem"
                 }
             },
             {
@@ -106,22 +101,6 @@ let presetelements = {
                 container: "body",
             }),
         });
-        setTimeout(()=>{
-            //size buttons when added to HTMLdoc
-            let btngrup =ret.getBoundingClientRect();
-            let button = ret.l("button.border-start-0");
-            console.log(button.getBoundingClientRect())
-            let fbutton = ret.l("button.border-end-0").getBoundingClientRect()
-            button.style.height = fbutton.height  +"px";
-        },1)
-        ret.addEventListener("contextmenu",(event) =>{ 
-            var e = event || window.event;
-      e.preventDefault && e.preventDefault();
-      e.stopPropagation && e.stopPropagation();
-      e.cancelBubble = true;
-      e.returnValue = false;
-           ret.l("button.border-start-0").click()
-                                                })
         return ret;
     },
 };
@@ -541,12 +520,11 @@ var Fe2 = new (class {
                             style: {
                                 position: "relative",
                                 top: "3px",
-                                display: "inline-block",
-                                "font-size":"1.21rem"
+                                display: "inline-block"
                             },
                         });
                     }
-                    menu.l("button").prepend(im);
+                    //menu.l("button").prepend(im);
                     if (e) {
                         let badge = l.CE("span");
 
@@ -714,10 +692,6 @@ var Fe2 = new (class {
                     });
                     self._p_.panel.setattr({
                         id: "Fe2_Panel",
-                        style:{
-                            
-                top: "calc(40px + 1rem)",
-                        }
                     });
                     self._p_.updatePanel();
                     //button creation
@@ -824,17 +798,12 @@ var Fe2 = new (class {
                         }, 500);
                     } else if (mode === "markdown") {
                         l("#Fe2_Panel").l(".offcanvas-title").innerHTML = "Markdown";
-                        //console.log(body)
-                        if (body) {
                         mkdn = body.l("#markdownviewer");
                         //console.log(yes)
                         mkdn.innerHTML =
               /*returns HTMLTEXT but not ELEMENT OBJECT */ self.mdp(
                             self.editor.getvalue()
                         );
-                        } else {
-                            
-                        }
                     }
                     //console.log(mode)
                 }
