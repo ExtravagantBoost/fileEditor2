@@ -23,6 +23,7 @@
     <script src="stylelint.js"></script>
     <script src="FileSaver.js"></script>
     <script src="prettier.js"></script>
+    <script src="prettierparsers.js"></script>
     <script src="terser.js" onerror="console.log('failed to load')"></script>
     <!--start mock node env-->
     <link href="font/bootstrap-icons.css" rel="stylesheet">
@@ -59,7 +60,12 @@
             height: 100%;
             -webkit-transition: all 0.4s 0.2s ease-in-out;
             transition: all 0.4s 0.2s ease-in-out;
-            background-color: rgb(33, 37, 41);
+            
+            background: -moz-linear-gradient(145deg, rgba(30,30,40,1) 0%, rgba(33,41,48,1) 50%, rgba(20,20,30,1) 100%),url("./bg.png");
+            background: -webkit-linear-gradient(145deg, rgba(30,30,40,1) 0%, rgba(33,41,48,1) 50%, rgba(20,20,30,1) 100%),url("./bg.png");
+            background: linear-gradient(145deg, rgba(30,30,40,1) 0%, rgba(33,41,48,1) 50%, rgba(20,20,30,1) 100%),url("./bg.png");
+            filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#1e1e28",endColorstr="#14141e",GradientType=1);
+           
             opacity: 0;
             visibility: hidden;
             -webkit-visibility: hidden;
@@ -129,6 +135,7 @@
             99%,
             100% {
                 opacity:0;
+                transform: scale(100%)
            }
         }
 

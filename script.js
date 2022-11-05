@@ -14,7 +14,7 @@ let presetelements = {
             class: ["btn-group", "col", "col-auto", "me-1", "ms-1"],
             style: {
                 display: "inline-block",
-                "user-select":"none"
+                "user-select": "none"
             },
             on: {
                 "show.bs.dropdown": () => {
@@ -54,14 +54,14 @@ let presetelements = {
                 on: {
                     click: (event) => {
                         try {
-                        let fi = ret.l("button").childNodes[0].wholeText;
+                            let fi = ret.l("button").childNodes[1].wholeText;
                             console.log(fi)
-                        if (!(Fe2.files.current === fi)) {
-                            Fe2.files.current = fi;
-                        } else {
-                            //console.log('already selected ')
-                        }
-                        } catch(e) {
+                            if (!(Fe2.files.current === fi)) {
+                                Fe2.files.current = fi;
+                            } else {
+                                //console.log('already selected ')
+                            }
+                        } catch (e) {
                             console.log(e)
                         }
                     },
@@ -88,11 +88,11 @@ let presetelements = {
                     "btn btn-outline-file border-start-0",
                 "data-bs-toggle": "dropdown",
                 "aria-expanded": false,
-                style:{
-                    "padding-left":"0.5625rem",
-                    "padding-right":"0.5625rem",
-                    "border-top-right-radius":"0.5rem",
-                    "border-bottom-right-radius":"0.5rem"
+                style: {
+                    "padding-left": "0.5625rem",
+                    "padding-right": "0.5625rem",
+                    "border-top-right-radius": "0.5rem",
+                    "border-bottom-right-radius": "0.5rem"
                 }
             },
             {
@@ -106,22 +106,22 @@ let presetelements = {
                 container: "body",
             }),
         });
-        setTimeout(()=>{
+        setTimeout(() => {
             //size buttons when added to HTMLdoc
-            let btngrup =ret.getBoundingClientRect();
+            let btngrup = ret.getBoundingClientRect();
             let button = ret.l("button.border-start-0");
             console.log(button.getBoundingClientRect())
             let fbutton = ret.l("button.border-end-0").getBoundingClientRect()
-            button.style.height = fbutton.height  +"px";
-        },1)
-        ret.addEventListener("contextmenu",(event) =>{ 
+            button.style.height = fbutton.height + "px";
+        }, 1)
+        ret.addEventListener("contextmenu", (event) => {
             var e = event || window.event;
-      e.preventDefault && e.preventDefault();
-      e.stopPropagation && e.stopPropagation();
-      e.cancelBubble = true;
-      e.returnValue = false;
-           ret.l("button.border-start-0").click()
-                                                })
+            e.preventDefault && e.preventDefault();
+            e.stopPropagation && e.stopPropagation();
+            e.cancelBubble = true;
+            e.returnValue = false;
+            ret.l("button.border-start-0").click()
+        })
         return ret;
     },
 };
@@ -223,6 +223,7 @@ function aerr(str = "") {
 }
 var Fe2 = new (class {
     constructor() {
+        try {
         const { WS } = require("@Fe2/WS");
         WS.setmode("local"); //set WebStorage API to store locally so that the user does not loose their data
 
@@ -542,7 +543,7 @@ var Fe2 = new (class {
                                 position: "relative",
                                 top: "3px",
                                 display: "inline-block",
-                                "font-size":"1.21rem"
+                                "font-size": "1.21rem"
                             },
                         });
                     }
@@ -714,9 +715,9 @@ var Fe2 = new (class {
                     });
                     self._p_.panel.setattr({
                         id: "Fe2_Panel",
-                        style:{
-                            
-                top: "calc(40px + 1rem)",
+                        style: {
+
+                            top: "calc(40px + 1rem)",
                         }
                     });
                     self._p_.updatePanel();
@@ -825,19 +826,21 @@ var Fe2 = new (class {
                     } else if (mode === "markdown") {
                         l("#Fe2_Panel").l(".offcanvas-title").innerHTML = "Markdown";
                         //console.log(body)
+                        console.log(mode)
                         if (body) {
-                        mkdn = body.l("#markdownviewer");
-                        //console.log(yes)
-                        mkdn.innerHTML =
+                            mkdn = body.l("#markdownviewer");
+                            //console.log(yes)
+                            mkdn.innerHTML =
               /*returns HTMLTEXT but not ELEMENT OBJECT */ self.mdp(
-                            self.editor.getvalue()
-                        );
+                                self.editor.getvalue()
+                            );
                         } else {
-                            
+
                         }
                     }
                     //console.log(mode)
                 }
+                console.log(langd.cmdetect(this.files.current).toLowerCase())
                 compile(self.editor.modename.toLowerCase());
             },
             removePanel: () => {
@@ -1058,8 +1061,7 @@ var Fe2 = new (class {
         ILC(self.editor);
         self.editor.setmode(files.current);
         self.mdp = (input, config) => {
-            //console.log(input)
-            let reader = new commonmark.Parser();
+           let reader = new commonmark.Parser();
             let writer = new commonmark.HtmlRenderer();
             let parsed = reader.parse(input === undefined ? "" : String(input)); // parsed is a 'Node' tree
             // transform parsed if you like...
@@ -1067,8 +1069,13 @@ var Fe2 = new (class {
             return result;
         };
         self._p_.createPanel();
+       if (!window.location.href.toLowerCase().includes("fileeditor2")) {
+        setTimeout(() => l(".cs-page-loading").classList.remove("active"),300)
+        }
+        } catch (e) {alert(e)}
+    
     }
-})();
+}) ();
 
 
 // TEST
