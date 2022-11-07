@@ -17,6 +17,7 @@
     <link href="Bootstrap.css" rel='stylesheet'>
     <link href="style.css" rel="stylesheet" type="text/css" />
     <link href='bs.css' rel='stylesheet'>
+    <link href="fonts/Chillax_complete/Fonts/WEB/css/chillax.css" rel="stylesheet">
     <script src="jshint/dist/jshint.js"></script>
     <script src="process.js"></script>
     <script src="buffer.js"></script>
@@ -28,7 +29,6 @@
     <!--start mock node env-->
     <link href="font/bootstrap-icons.css" rel="stylesheet">
     <script src="mocknode.js"></script>
-
     <script src="parsers/babel.js" onerror="console.log(`failed`)"></script>
     <script src='codemirrorstand.js'></script>
     <script src="language-detect.js"></script>
@@ -50,7 +50,7 @@
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">-->
     <style>
-        .cs-page-loading {
+       .cs-page-loading {
             position: fixed;
             top: 0;
             right: 0;
@@ -70,8 +70,25 @@
             visibility: hidden;
             -webkit-visibility: hidden;
             z-index: 9999;
+            animation:spinv 1s linear infinite !important;
         }
-
+@keyframes spinv {
+    0%{
+        background: -moz-linear-gradient(145deg, rgba(30,30,40,1) 0%, rgba(33,41,48,1) 50%, rgba(20,20,30,1) 100%),url("./bg.png");
+            background: -webkit-linear-gradient(145deg, rgba(30,30,40,1) 0%, rgba(33,41,48,1) 50%, rgba(20,20,30,1) 100%),url("./bg.png");
+            background: linear-gradient(145deg, rgba(30,30,40,1) 0%, rgba(33,41,48,1) 50%, rgba(20,20,30,1) 100%),url("./bg.png");
+            filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#1e1e28",endColorstr="#14141e",GradientType=1);
+           
+    }
+    100% {
+        background: -moz-linear-gradient(505deg, rgba(30,30,40,1) 0%, rgba(33,41,48,1) 50%, rgba(20,20,30,1) 100%),url("./bg.png");
+            background: -webkit-linear-gradient(505deg, rgba(30,30,40,1) 0%, rgba(33,41,48,1) 50%, rgba(20,20,30,1) 100%),url("./bg.png");
+            background: linear-gradient(505deg, rgba(30,30,40,1) 0%, rgba(33,41,48,1) 50%, rgba(20,20,30,1) 100%),url("./bg.png");
+            filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#1e1e28",endColorstr="#14141e",GradientType=1);
+           
+    }
+    
+}
         .cs-page-loading.active {
             opacity: 1;
             visibility: visible;
@@ -97,10 +114,22 @@
 
         .cs-page-loading-inner>span {
             display: block;
-            font-family: "Inter", sans-serif;
-            font-size: 1rem;
+            font-family:"Chillax-Regular";
+            font-size: 1.21rem;
             font-weight: normal;
             color: #f8f9fa;
+            animation:glow 2s infinite ease-in-out;
+        }
+        @keyframes glow {
+            0%,100%{
+                color: #f8f9fa;
+                text-shadow:1px 1px 5px lightgray;
+            }
+            55% {
+                color: #C7C7C7;
+                text-shadow:none;
+            }
+            
         }
 
         .cs-page-logo>svg {
@@ -151,8 +180,7 @@
             99%,
             100% {}
         }
-
-        .cm-line:before {
+       .cm-line:before {
             content: "‎";
             /*empty character to respect IOS 16.0.1 new css processing*/
 
