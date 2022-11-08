@@ -1069,9 +1069,10 @@ var Fe2 = new (class {
             return result;
         };
         self._p_.createPanel();
+        /*    alert(window.location.href)
        if (!window.location.href.toLowerCase().includes("fileeditor2")) {
         setTimeout(() => l(".cs-page-loading").classList.remove("active"),300)
-        }
+        }*/
         } catch (e) {alert(e)}
     
     }
