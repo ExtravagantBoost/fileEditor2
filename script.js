@@ -1,13 +1,8 @@
 /*global l,bootstrap*/
-let main = l("body");
+/*let main = l("body");
 let presetelements = {
     dropdown: (btn1, actions) => {
-        /*
-        <div class="btn-group">
-          <button type="button" class="btn btn-primary font-monospace">b</button>
-          <button type="button" class="btn btn-primary"><i class='bi bi-three-dots-vertical'
-                  style="margin-left:-10px;margin-right:-10px;"></i></button>
-      </div>*/
+       
         let ret = l.CE("div");
         let v = null;
         ret.setattr({
@@ -69,12 +64,7 @@ let presetelements = {
             },
             {
                 button: [
-
-                    /*{
-                                  span: [],
-                                  class:"bi bi-three-dots-vertical"
-                              },*/
-                    {
+                   {
                         i: [],
                         class: "bi bi-three-dots-vertical",
                         style: {
@@ -96,7 +86,7 @@ let presetelements = {
                 }
             },
             {
-                ul: actions || [] /*as html object*/,
+                ul: actions || [] /*as html object*//*,
                 class: ["dropdown-menu", "dropdown-menu-dark"],
             }
         );
@@ -741,7 +731,7 @@ var Fe2 = new (class {
                         },
                         {
                             div: [
-                                /*framework for error/warning/info indicators*/
+                                /*framework for error/warning/info indicators*//*
                             ],
                             class: "translate-middle",
                         }
@@ -831,7 +821,7 @@ var Fe2 = new (class {
                             mkdn = body.l("#markdownviewer");
                             //console.log(yes)
                             mkdn.innerHTML =
-              /*returns HTMLTEXT but not ELEMENT OBJECT */ self.mdp(
+              /*returns HTMLTEXT but not ELEMENT OBJECT *//* self.mdp(
                                 self.editor.getvalue()
                             );
                         } else {
@@ -1072,7 +1062,7 @@ var Fe2 = new (class {
         /*    alert(window.location.href)
        if (!window.location.href.toLowerCase().includes("fileeditor2")) {
         setTimeout(() => l(".cs-page-loading").classList.remove("active"),300)
-        }*/
+        }*//*
         } catch (e) {alert(e)}
     
     }
