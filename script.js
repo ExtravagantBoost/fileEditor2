@@ -455,6 +455,21 @@ var Fe2 = new (class {
                                                                         "var(--bs-border-color-translucent)",
                                                                     color: "var(--bs-white)",
                                                                 },
+                                                                on:{
+                                                                    keydown(event) {
+                                                                        if (event.keyCode === 13) {
+                                                                            //Enter key
+                                                                            let vrl =
+                                                                                addmodal.l(
+                                                                                    "input"
+                                                                                ).value;
+                                                                            if (vrl != "") {
+                                                                                l("#submit").click();
+                                                                            }
+                                                                        }
+
+                                                                    }
+                                                                }
                                                             },
                                                             {
                                                                 label: [
@@ -513,6 +528,7 @@ var Fe2 = new (class {
                                                                     self._p_.un();
                                                                 },
                                                             },
+                                                            id:"submit"
                                                         },
                                                     ]
                                                 );
