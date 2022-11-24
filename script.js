@@ -739,10 +739,10 @@ var Fe2 = new (class {
                             let text2 = l.CE("h2");
                             text2.apCh("Errors");
                             body1.apCh(
-                                bs.callout("info", [icon.text], [""]), //will do later
+                                bs.callout("info", [icon,text], [""]), //will do later
                                 bs.callout(
                                     "warning",
-                                    [icon1, text],
+                                    [icon1, text1],
                                     ["No warnings detected."]
                                 ),
                                 bs.callout(
@@ -776,13 +776,13 @@ var Fe2 = new (class {
                             });
                             body1.apCh(
                                 bs.callout(
-                                    "danger",
+                                    "warning",
                                     [icon1, text1],
                                     ["No warnings detected"]
                                 ),
                                 bs.callout(
                                     "danger",
-                                    [icon, text],
+                                    [icon,text],
                                     ["No errors detected"]
                                 )
                             );
@@ -883,10 +883,54 @@ var Fe2 = new (class {
                         if (mode === "javascript") {
                             l("#Fe2_Panel").l(".offcanvas-title").innerHTML =
                                 "JSHINT";
+                            //check if panel does not have elements to support function
+                            if (!body.l(".callout.callout-warning")) {
+                                body.inHTML = "";
+                                let body1;
+                                body1 = l.CE("div");
+                            body1.setattr({
+                                id: "panelbody",
+                            });
+                            let icon = l.CE("i");
+                            icon.setattr({
+                                class: "bi bi-exclamation-circle",
+                            });
+                            let text = l.CE("h2");
+                            text.apCh("Info");
+                            let icon1 = l.CE("i");
+                            icon1.setattr({
+                                class: "bi bi-exclamation-triangle",
+                            });
+                            let text1 = l.CE("h2");
+                            text1.apCh("Warnings");
+                            let icon2 = l.CE("i");
+                            icon2.setattr({
+                                class: "bi bi-exclamation-octagon",
+                            });
+                            let text2 = l.CE("h2");
+                            text2.apCh("Errors");
+                            body1.apCh(
+                                bs.callout("info", [icon,text], [""]), //will do later
+                                bs.callout(
+                                    "warning",
+                                    [icon1, text1],
+                                    ["No warnings detected."]
+                                ),
+                                bs.callout(
+                                    "danger",
+                                    [icon2, text2],
+                                    ["No errors detected"]
+                                )
+                            );
+                console.log(body1)
+                                body.apCh(body1)
+                            }
                             eco = body.l(".callout.callout-danger");
                             wco = body.l(".callout.callout-warning");
                             btnt.disabled = false;
-                            JSHINT.errors.forEach((error) => {
+                            if(JSHINT.errors)
+                            {
+                                JSHINT.errors.forEach((error) => {
                                 //populating lists
                                 let item;
 
@@ -904,13 +948,48 @@ var Fe2 = new (class {
                                     danglist.apCh(item);
                                 }
                             });
+                                console.log(eco)
                             eco.l(".callout-body").innerHTML = "";
                             wco.l(".callout-body").innerHTML = "";
                             eco.l(".callout-body").apCh(danglist);
                             wco.l(".callout-body").apCh(warnlist);
+                            }
                         } else if (mode === "css") {
                             l("#Fe2_Panel").l(".offcanvas-title").innerHTML =
                                 "stylelint";
+                            if (!body.l(".callout.callout-warning")) {
+                                body.inHTML = "";
+                                let body1;
+                                body1 = l.CE("div");
+                            body1.setattr({
+                                id: "panelbody",
+                            });
+                            let text = l.CE("h2");
+                            text.apCh("Errors");
+                            let icon = l.CE("i");
+                            icon.setattr({
+                                class: "bi bi-exclamation-octagon",
+                            });
+                            let text1 = l.CE("h2");
+                            text1.apCh("Warnings");
+                            let icon1 = l.CE("i");
+                            icon1.setattr({
+                                class: "bi bi-exclamation-triangle",
+                            });
+                            body1.apCh(
+                                bs.callout(
+                                    "warning",
+                                    [icon1, text1],
+                                    ["No warnings detected"]
+                                ),
+                                bs.callout(
+                                    "danger",
+                                    [icon, text],
+                                    ["No errors detected"]
+                                )
+                            );
+                                body.apCH(body1)
+                            }
                             eco = body.l(".callout.callout-danger");
                             wco = body.l(".callout.callout-warning");
                             //wait for Stylelint to callback with a value b/c of its promise state
@@ -945,8 +1024,34 @@ var Fe2 = new (class {
                             l("#Fe2_Panel").l(".offcanvas-title").innerHTML =
                                 "Markdown";
                             //console.log(body)
-                            console.log(mode);
+                            //console.log(mode);
                             if (body) {
+                                if (!body.l("#markdownviewer")) {
+                                    body.inHTML = "";
+                                    let body1;
+                                    body1 = l.CE("div");
+                            body1.setattr({
+                                id: "panelbody",
+                            });
+                            body1.apCh({
+                                div: [
+                                    {
+                                        div: [],
+                                        class: "p-2 rounded-3",
+                                        id: "markdownviewer",
+                                    },
+                                ],
+                                style: {
+                                    width: "100%",
+                                    height: "500px",
+                                    overflow: "scroll",
+                                    background: "white",
+                                    color: "black",
+                                    "border-radius": "10px",
+                                },
+                            });
+                                    body.apCh(body1);
+                                }
                                 mkdn = body.l("#markdownviewer");
                                 //console.log(yes)
                                 mkdn.innerHTML =
@@ -1232,9 +1337,11 @@ var Fe2 = new (class {
                     "Secretly getting your IP address...",
                     "installing virus infested virus blocker...",
                     "texting your mother...",
+                    "texting your father...",
                     "looking through your secret file that you keep hidden on your computer...",
                     "logging into your Github account...",
                     "doing some pretty shifty things... 👀",
+                    "you cant spell NUTRITION without NUT!"
                 ];
                 v1c.inHTML = "";
                 v1c.apCh(titles[Math.floor(Math.random() * titles.length)]);

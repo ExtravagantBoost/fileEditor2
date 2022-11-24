@@ -248,5 +248,6 @@ const bs = {
             ],
             class:"callout-content"
         })
+        return callout;
     }
 };

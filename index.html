@@ -61,7 +61,7 @@
             height: 100%;
             -webkit-transition: all 0.4s 0.2s ease-in-out;
             transition: all 0.4s 0.2s ease-in-out;
-            
+            display:none;
            cursor:wait;
           background: -moz-linear-gradient(145deg, rgba(30,30,40,1) 0%, rgba(33,41,48,1) 50%, rgba(20,20,30,1) 100%),url("./bg.png");
             background: -webkit-linear-gradient(145deg, rgba(30,30,40,1) 0%, rgba(33,41,48,1) 50%, rgba(20,20,30,1) 100%),url("./bg.png");
@@ -69,14 +69,11 @@
             filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#1e1e28",endColorstr="#14141e",GradientType=1);
            
             opacity: 0;
-            visibility: hidden;
-            -webkit-visibility: hidden;
             z-index: 9999;
        }
       .cs-page-loading.active {
             opacity: 1;
-            visibility: visible;
-            -webkit-visibility: visible;
+          display:block !important;
         }
 
         .cs-page-loading-inner {
