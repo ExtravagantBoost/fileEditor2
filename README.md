@@ -1,3 +1,5 @@
+[![CodeQL](https://github.com/ExtravagantBoost/fileEditor2/actions/workflows/codeql.yml/badge.svg)](https://github.com/ExtravagantBoost/fileEditor2/actions/workflows/codeql.yml)
+<hr>
 ## Welcome
 this is **fileEditor 2**, an improved and more innovative sequel to [*fileEditor*](https://fileEditor.extravagantboost.repl.co),
 in this version of *fileEditor*, some notable changes have ensued after the original make.
