@@ -722,32 +722,44 @@ var Fe2 = new (class {
                             });
                             let icon = l.CE("i");
                             icon.setattr({
-                                class: "bi bi-exclamation-circle",
+                                class: "bi bi-exclamation-circle-fill me-2",
+                                style:{
+                                    color:"var(--bs-info)"
+                                }
                             });
                             let text = l.CE("h2");
-                            text.apCh("Info");
+                            text.apCh(icon,"Info");
                             let icon1 = l.CE("i");
                             icon1.setattr({
-                                class: "bi bi-exclamation-triangle",
+                                class: "bi bi-exclamation-triangle-fill me-2",
+                                style:{
+                                    color:"var(--bs-warning)",
+                                    
+                                }
                             });
+                            
                             let text1 = l.CE("h2");
-                            text1.apCh("Warnings");
+                            text1.apCh(icon1,"Warnings");
                             let icon2 = l.CE("i");
                             icon2.setattr({
-                                class: "bi bi-exclamation-octagon",
+                                class: "bi bi-exclamation-octagon-fill me-2",
+                                style:{
+                                    color:"var(--bs-danger)"
+                                }
+
                             });
                             let text2 = l.CE("h2");
-                            text2.apCh("Errors");
+                            text2.apCh(icon2,"Errors");
                             body1.apCh(
-                                bs.callout("info", [icon,text], [""]), //will do later
+                                bs.callout("info", [text], [""]), //will do later
                                 bs.callout(
                                     "warning",
-                                    [icon1, text1],
+                                    [text1],
                                     ["No warnings detected."]
                                 ),
                                 bs.callout(
                                     "danger",
-                                    [icon2, text2],
+                                    [text2],
                                     ["No errors detected"]
                                 )
                             );
@@ -763,26 +775,34 @@ var Fe2 = new (class {
                                 id: "panelbody",
                             });
                             let text = l.CE("h2");
-                            text.apCh("Errors");
                             let icon = l.CE("i");
                             icon.setattr({
-                                class: "bi bi-exclamation-octagon",
+                                class: "bi bi-exclamation-octagon-fill me-2",
+                                style: {
+                                    color:"var(--bs-danger)"
+                                }
                             });
+
+                            text.apCh(icon,"Errors");
                             let text1 = l.CE("h2");
-                            text1.apCh("Warnings");
                             let icon1 = l.CE("i");
                             icon1.setattr({
-                                class: "bi bi-exclamation-triangle",
+                                class: "bi bi-exclamation-triangle-fill me-2",
+                                style:{
+                                    color:"var(--bs-warning)"
+                                }
                             });
+
+                            text1.apCh(icon1,"Warnings");
                             body1.apCh(
                                 bs.callout(
                                     "warning",
-                                    [icon1, text1],
+                                    [text1],
                                     ["No warnings detected"]
                                 ),
                                 bs.callout(
                                     "danger",
-                                    [icon,text],
+                                    [text],
                                     ["No errors detected"]
                                 )
                             );
@@ -893,32 +913,41 @@ var Fe2 = new (class {
                             });
                             let icon = l.CE("i");
                             icon.setattr({
-                                class: "bi bi-exclamation-circle",
+                                class: "bi bi-exclamation-circle-fill me-2",
+                                style: {
+                                    color:"var(--bs-info)"
+                                }
                             });
                             let text = l.CE("h2");
-                            text.apCh("Info");
+                            text.apCh(icon,"Info");
                             let icon1 = l.CE("i");
                             icon1.setattr({
-                                class: "bi bi-exclamation-triangle",
+                                class: "bi bi-exclamation-triangle-fill me-2",
+                                style: {
+                                    color:"var(--bs-warning)"
+                                }
                             });
                             let text1 = l.CE("h2");
-                            text1.apCh("Warnings");
+                            text1.apCh(icon1,"Warnings");
                             let icon2 = l.CE("i");
                             icon2.setattr({
-                                class: "bi bi-exclamation-octagon",
+                                class: "bi bi-exclamation-octagon-fill me-2",
+                                style:{
+                                    color:"var(--bs-danger)"
+                                }
                             });
                             let text2 = l.CE("h2");
-                            text2.apCh("Errors");
+                            text2.apCh(icon2,"Errors");
                             body1.apCh(
-                                bs.callout("info", [icon,text], [""]), //will do later
+                                bs.callout("info", [text], [""]), //will do later
                                 bs.callout(
                                     "warning",
-                                    [icon1, text1],
+                                    [text1],
                                     ["No warnings detected."]
                                 ),
                                 bs.callout(
                                     "danger",
-                                    [icon2, text2],
+                                    [text2],
                                     ["No errors detected"]
                                 )
                             );
@@ -928,7 +957,7 @@ var Fe2 = new (class {
                             eco = body.l(".callout.callout-danger");
                             wco = body.l(".callout.callout-warning");
                             btnt.disabled = false;
-                            if(JSHINT.errors)
+                            if(JSHINT.errors && JSHINT.errors.length>0)
                             {
                                 JSHINT.errors.forEach((error) => {
                                 //populating lists
@@ -948,7 +977,6 @@ var Fe2 = new (class {
                                     danglist.apCh(item);
                                 }
                             });
-                                console.log(eco)
                             eco.l(".callout-body").innerHTML = "";
                             wco.l(".callout-body").innerHTML = "";
                             eco.l(".callout-body").apCh(danglist);
@@ -968,13 +996,19 @@ var Fe2 = new (class {
                             text.apCh("Errors");
                             let icon = l.CE("i");
                             icon.setattr({
-                                class: "bi bi-exclamation-octagon",
+                                class: "bi bi-exclamation-octagon-fill",
+                                style:{
+                                    color:"var(--bs-danger)"
+                                }
                             });
                             let text1 = l.CE("h2");
                             text1.apCh("Warnings");
                             let icon1 = l.CE("i");
                             icon1.setattr({
-                                class: "bi bi-exclamation-triangle",
+                                class: "bi bi-exclamation-triangle-fill",
+                                style:{
+                                    color:"var(--bs-warning)"
+                                }
                             });
                             body1.apCh(
                                 bs.callout(
