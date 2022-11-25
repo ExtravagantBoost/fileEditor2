@@ -957,25 +957,32 @@ var Fe2 = new (class {
                             eco = body.l(".callout.callout-danger");
                             wco = body.l(".callout.callout-warning");
                             btnt.disabled = false;
+                            //console.log(JSHINT.errors)
                             if(JSHINT.errors && JSHINT.errors.length>0)
                             {
                                 JSHINT.errors.forEach((error) => {
                                 //populating lists
                                 let item;
-
+                                //console.log(error)
                                 item = l.CE("div");
                                 item.setattr({
                                     class: "list-group-item",
+                                    style:{
+                                        color:"white"
+                                    }
                                 });
+                                    let vb = 
                                 item.apCh(
-                                    createtip(`At ${error.line}`),
-                                    error.message
+                                    {span:[createtip(`line ${error.line}`)],style:{display:"inline-block","margin-left":"2px"}},
+                                    " ",error.reason
                                 );
-                                if (error.severity === "warning") {
+                                    console.log(error)
+                                if (error.code.startsWith("W")) {
                                     warnlist.apCh(item);
-                                } else if (error.severity === "error") {
+                                } else {
                                     danglist.apCh(item);
                                 }
+                                    console.log()
                             });
                             eco.l(".callout-body").innerHTML = "";
                             wco.l(".callout-body").innerHTML = "";
