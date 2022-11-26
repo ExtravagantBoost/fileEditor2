@@ -956,7 +956,9 @@ var Fe2 = new (class {
                             }
                             eco = body.l(".callout.callout-danger");
                             wco = body.l(".callout.callout-warning");
+                            let ifo = body.l(".callout.callout-info")
                             btnt.disabled = false;
+                            let count = [0,0]
                             //console.log(JSHINT.errors)
                             if(JSHINT.errors && JSHINT.errors.length>0)
                             {
@@ -974,20 +976,78 @@ var Fe2 = new (class {
                                     let vb = 
                                 item.apCh(
                                     {span:[createtip(`line ${error.line}`)],style:{display:"inline-block","margin-left":"2px"}},
-                                    " ",error.reason
+                                    " ",error.reason,
+                                    "  ",
+                                    {
+                                        span:[],
+                                        class:"font-monospace",
+                                        style:{
+                                            color:"var(--bs-gray-400)"
+                                        }
+                                    }
                                 );
                                     console.log(error)
                                 if (error.code.startsWith("W")) {
                                     warnlist.apCh(item);
+                                    count[1]++;
                                 } else {
                                     danglist.apCh(item);
+                                    count[0]++;
                                 }
-                                    console.log()
                             });
+                            if (count[0]>1) {
                             eco.l(".callout-body").innerHTML = "";
-                            wco.l(".callout-body").innerHTML = "";
+
                             eco.l(".callout-body").apCh(danglist);
+                            }
+                            else {
+
+                            eco.l(".callout-body").innerHTML = "No errors detected.";
+                            }
+                            if (count[1]>1) {
+                            wco.l(".callout-body").innerHTML = "";
                             wco.l(".callout-body").apCh(warnlist);
+                            
+                            } else {
+                                wco.l(".callout-body").inHTML = "No warnings detected."
+                            }
+                            let bv = ifo.l(".callout-body");
+                            bv.inHTML = "";
+                            let data = JSHINT.data();
+                            function calc(nums) {
+                                var half, len = nums.length
+                                nums.sort(function (a, b) { return a - b })
+                                half = Math.floor(len / 2)
+                                console.log(nums)
+                                return {
+                                  max: nums[len - 1],
+                                  med: len % 2 ? nums[half] : (nums[half - 1] + nums[half]) / 2.0
+                                }
+                              }
+                            let statements = [
+                                `There ${self.editor.state.doc.lines===1?"is":"are"} ${self.editor.state.doc.lines} line${(self.editor.state.doc.lines===1?"":"s")} in this file.`,
+                                `There ${(data.functions.length===1?"is":"are")} ${data.functions.length} function${(data.functions.length===1?"":"s")} in this file`,
+
+                            ]
+                            let statev = l.CE("div");
+                            statev.setattr({
+                                class:"list-group list-group-flush"
+                            })
+                            //create items
+                            for (let iv of statements) {
+                                let item = l.CE("div");
+                                item.setattr({
+                                    class:"list-group-item",
+                                    style:{
+                                        color:"white"
+                                    }
+                                })
+                                item.apCh(iv);
+                                statev.apCh(item)
+                            }
+                            bv.apCh(
+                                statev
+                            )
                             }
                         } else if (mode === "css") {
                             l("#Fe2_Panel").l(".offcanvas-title").innerHTML =
@@ -1029,7 +1089,7 @@ var Fe2 = new (class {
                                     ["No errors detected"]
                                 )
                             );
-                                body.apCH(body1)
+                                body.apCh(body1)
                             }
                             eco = body.l(".callout.callout-danger");
                             wco = body.l(".callout.callout-warning");
