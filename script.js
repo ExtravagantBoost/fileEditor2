@@ -956,31 +956,56 @@ var Fe2 = new (class {
                             }
                             eco = body.l(".callout.callout-danger");
                             wco = body.l(".callout.callout-warning");
+                            let ifo = body.l(".callout.callout-info");
+                            let count = [0,0]
                             btnt.disabled = false;
+                            //console.log(JSHINT.errors)
                             if(JSHINT.errors && JSHINT.errors.length>0)
                             {
                                 JSHINT.errors.forEach((error) => {
                                 //populating lists
                                 let item;
-
+                                //console.log(error)
                                 item = l.CE("div");
                                 item.setattr({
                                     class: "list-group-item",
+                                    style:{
+                                        color:"white"
+                                    }
                                 });
+                                    let vb = 
                                 item.apCh(
-                                    createtip(`At ${error.line}`),
-                                    error.message
+                                    {span:[createtip(`line ${error.line}`)],style:{display:"inline-block","margin-left":"2px"}},
+                                    " ",error.reason," ",{span:["(",error.code,")"],class:"font-monospace",style:{color:"var(--bs-gray-400)"}}
                                 );
-                                if (error.severity === "warning") {
+                                    console.log(error)
+                                if (error.code.startsWith("W")) {
                                     warnlist.apCh(item);
-                                } else if (error.severity === "error") {
+                                    count[0]++
+                                } else {
                                     danglist.apCh(item);
+                                    count[1]++
                                 }
+                                    console.log()
                             });
+                            if (count[1] > 0) {
                             eco.l(".callout-body").innerHTML = "";
-                            wco.l(".callout-body").innerHTML = "";
                             eco.l(".callout-body").apCh(danglist);
+                            }
+                            if (count[0] > 0) {
+                            wco.l(".callout-body").innerHTML = "";
                             wco.l(".callout-body").apCh(warnlist);
+                            }
+                            //update file info :)
+                            let bv = ifo.l(".callout-body");
+                            bv.inHTML = "";
+                            bv.apCh({div:[{
+                                div:[
+                                    `${self.editor.state.doc.lines} line${(self.editor.state.doc.lines===1?"":"s")}`
+                                ],
+                                class:"list-group-item",
+                                style:{color:"white"}
+                            }],class:"list-group list-group-flush"})
                             }
                         } else if (mode === "css") {
                             l("#Fe2_Panel").l(".offcanvas-title").innerHTML =
