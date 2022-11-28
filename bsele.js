@@ -1,3 +1,4 @@
+//jshint esversion:6
 const bs = {
     toast(title, ib, img = false) {
         let Toast = l.CE("div");
@@ -16,18 +17,19 @@ const bs = {
             role: "alert",
             "aria-live": "assertive",
             "aria-atomic": true,
-       });
+        });
         Toast.apCh(
             {
                 div: [
+                    //jshint -W014
                     img
                         ? {
-                            img: [],
-                            class: "rounded me-2",
-                            src: img,
-                            width: "20px",
-                            height: "20px",
-                        }
+                              img: [],
+                              class: "rounded me-2",
+                              src: img,
+                              width: "20px",
+                              height: "20px",
+                          }
                         : { div: [] },
                     { strong: [title], class: "me-auto" },
                     {
@@ -47,10 +49,18 @@ const bs = {
         );
         let bsv = new bootstrap.Toast(Toast);
         //console.log(Toast)
-        Toast.show = () => {bsv.show()};
-        Toast.hide = () => {bsv.hide()};
-        Toast.dispose = () => {bsv.dispose()};
-        Toast.isShown = () => {bsv.isShown()};
+        Toast.show = () => {
+            bsv.show();
+        };
+        Toast.hide = () => {
+            bsv.hide();
+        };
+        Toast.dispose = () => {
+            bsv.dispose();
+        };
+        Toast.isShown = () => {
+            bsv.isShown();
+        };
         return Toast;
     },
     modal(title, body, footer) {
@@ -107,16 +117,26 @@ const bs = {
         });
 
         let bsv = new bootstrap.Modal(Modal);
-        Modal.show = () => {bsv.show()};
-        Modal.hide = () => {bsv.hide()};
-        Modal.dispose = () => {bsv.dispose()};
-        Modal.toggle = () => {bsv.toggle()};
-        Modal.handleUpdate = () => {bsv.handleUpdate()};
+        Modal.show = () => {
+            bsv.show();
+        };
+        Modal.hide = () => {
+            bsv.hide();
+        };
+        Modal.dispose = () => {
+            bsv.dispose();
+        };
+        Modal.toggle = () => {
+            bsv.toggle();
+        };
+        Modal.handleUpdate = () => {
+            bsv.handleUpdate();
+        };
 
         return Modal;
     },
     offcanvas(title, body, configs) {
-       if (!configs) {
+        if (!configs) {
             configs = {
                 dark: false,
                 pos: "start",
@@ -125,21 +145,21 @@ const bs = {
                 keyboard: true,
             };
         }
-        let has = (obj,key,def) => {
+        let has = (obj, key, def) => {
             if (obj.hasOwnProperty(key)) {
                 return obj[key];
             }
             return def;
-        }
-        let swtch = (obj,key,val1,val2) => {
+        };
+        let swtch = (obj, key, val1, val2) => {
             if (obj.hasOwnProperty(key)) {
-                return val1
+                return val1;
             }
-            return val2
-        }
+            return val2;
+        };
         //console.log(swtch(configs,'dark','1','2'))
-        let innerbody = undefined;
-        
+        let innerbody;
+
         if (typeof body == "function") {
             innerbody = body();
             //should return Element
@@ -150,20 +170,26 @@ const bs = {
             innerbody = body;
         }
         let Offcanvas = l.CE("div");
-       Offcanvas.setattr({
-            class: `offcanvas ${configs.pos!=undefined ? `offcanvas-${configs.pos}` : "offcanvas-start"
-                } ${has(configs,'dark',false) ? "text-bg-dark" : ""}`,
+        Offcanvas.setattr({
+            class: `offcanvas ${
+                //jshint -W014
+                configs.pos != undefined
+                    ? `offcanvas-${configs.pos}`
+                    : "offcanvas-start"
+            } ${has(configs, "dark", false) ? "text-bg-dark" : ""}`,
             tabindex: -1,
-            "aria-labelledby": 'offcanvas1',
-       });
-       Offcanvas.apCh(
+            "aria-labelledby": "offcanvas1",
+        });
+        Offcanvas.apCh(
             {
                 div: [
                     { h5: [title], class: "offcanvas-title", id: title },
                     {
                         button: [],
                         type: "button",
-                        class: `btn-close ${has(configs,'dark',false) ? "btn-close-white" : ""}`,
+                        class: `btn-close ${
+                            has(configs, "dark", false) ? "btn-close-white" : ""
+                        }`,
                         "data-bs-dismiss": "offcanvas",
                         "aria-label": "close",
                     },
@@ -176,22 +202,21 @@ const bs = {
             }
         );
         //console.log(Offcanvas,configs)
-        document.body.appendChild(Offcanvas)
-            
-        let bsv = new bootstrap.Offcanvas(Offcanvas,{
-            
-            scroll:has(configs,'scroll',false),
-            backdrop:has(configs,'backdrop',true),
-            keyboard:has(configs,'keyboard',true)
-        })
+        document.body.appendChild(Offcanvas);
+
+        let bsv = new bootstrap.Offcanvas(Offcanvas, {
+            scroll: has(configs, "scroll", false),
+            backdrop: has(configs, "backdrop", true),
+            keyboard: has(configs, "keyboard", true),
+        });
         //error fixed. Offcanvas has to be appended to document prior to creating an instance.
         Offcanvas.show = () => bsv.show();
         Offcanvas.hide = () => bsv.hide();
         Offcanvas.toggle = () => bsv.toggle();
-       
-        return Offcanvas
-   },
-    callout(style,title,body) {
+
+        return Offcanvas;
+    },
+    callout(style, title, body) {
         style = style.toLowerCase();
         let styles = [
             "primary",
@@ -202,52 +227,112 @@ const bs = {
             "info",
             "light",
             "dark",
-        ]
-        
-        if (styles.indexOf(style)>-1) {} else throw new Error("Style that was supplied does not exist, try another one (recieved '"+style+"'");
-        if (typeof title=== undefined) throw new Error("Content for title is not supplied");
-        if (typeof title === "function"/*check if function, then run*/) title = title();
+        ];
+
+        if (styles.indexOf(style) > -1) {
+        } else
+            throw new Error(
+                "Style that was supplied does not exist, try another one (recieved '" +
+                    style +
+                    "'"
+            );
+        if (typeof title === undefined)
+            throw new Error("Content for title is not supplied");
+        if (typeof title === "function" /*check if function, then run*/)
+            title = title();
         if (typeof title === "string") {
-            let newtitle = l.CE("h2");//create header title
-            l.setattr({class:"callout-title"});
-            newtitle.apCh(title)
-            title = [newtitle];//Bodybuilder only supports lists for now
+            let newtitle = l.CE("h2"); //create header title
+            l.setattr({ class: "callout-title" });
+            newtitle.apCh(title);
+            title = [newtitle]; //Bodybuilder only supports lists for now
         }
-        if (typeof title === "object") {//lists and objects pass through typeof scope as "object"
-            if (title.length/*check if title is list*/) {
+        if (typeof title === "object") {
+            //lists and objects pass through typeof scope as "object"
+            if (title.length /*check if title is list*/) {
                 //DO NOTHING
             } else {
-                title = [title]
+                title = [title];
             }
         }
-        if (typeof body===undefined) throw new Error("Content for body is not supplied");
-        if (typeof body === "function") body = body()
+        if (typeof body === undefined)
+            throw new Error("Content for body is not supplied");
+        if (typeof body === "function") body = body();
         if (typeof body === "string") body = [body];
         if (typeof body === "object") {
             if (body.length) {
-                
             } else {
-                body = [body]
+                body = [body];
             }
         }
-       let callout = l.CE('div')
+        let callout = l.CE("div");
         callout.setattr({
-            class:`callout callout-${style}`,
-        })
+            class: `callout callout-${style}`,
+        });
         callout.apCh({
-            div:[
+            div: [
                 {
-                    div:title,
-                    class:"callout-header",
+                    div: title,
+                    class: "callout-header",
                 },
 
                 {
-                    p:body,
-                    class:"callout-body",
+                    p: body,
+                    class: "callout-body",
                 },
             ],
-            class:"callout-content"
-        })
+            class: "callout-content",
+        });
         return callout;
-    }
+    },
+    accordion: (...childs) => {
+        //create basis
+        let acrd = l.CE("div");
+        acrd.setattr({
+            class: "accordion accordion-dark" /*you can remove the dark class here or programatically after calling this function */,
+        });
+        let items = childs;
+        items.forEach((v, index) => {
+            //follow this formatting
+            /* {
+                    title:"accordion1"
+                    body:[elements/text/numbers]
+                }*/
+            if (typeof v === "object" && v.title && v.body) {
+                let idv = Math.round(Math.random()*1000000);
+                let aitem = l.CE("div");
+                aitem.setattr({
+                    class: "accordion-item",
+                    id:"accordion"+idv
+                });
+                aitem.apCh({
+                    h2: [
+                        {
+                            button: [v.title],
+                            class:"accordion-button",
+                            type:"button",
+                            "data-bs-toggle":"collapse",
+                            "data-bs-target":`#collapse${index}`,
+                            "aria-expanded":"true",
+                            "aria-controls":`collapse${index}`
+                        },
+                    ],
+                    class: "accordion-header",
+                    id: `accordion${index}`,
+                },
+                {
+                    div:[
+                        {
+                            div:v.body,
+                            class:"accordion-body"
+                        }
+                    ],
+                    id:`collapse${index}`,
+                    class:"accordion-collapse collapse",
+                    "aria-labelledby":`heading${index}`,
+                    "data-bs-parent":"#accordion"+idv
+                }
+                );
+            }
+        });
+    },
 };

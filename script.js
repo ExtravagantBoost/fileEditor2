@@ -1,4 +1,5 @@
 /*global l,bootstrap*/
+//jshint esversion:8
 /*
     .########.####.##.......########.########.########..####.########..#######..########...#######.
     .##........##..##.......##.......##.......##.....##..##.....##....##.....##.##.....##.##.....##
@@ -71,7 +72,7 @@ let presetelements = {
                         try {
                             let fi = ret.l("button").childNodes[1].wholeText;
                             console.log(fi);
-                            if (!(Fe2.files.current === fi)) {
+                            if (Fe2.files.current !== fi) {
                                 Fe2.files.current = fi;
                             } else {
                                 //console.log('already selected ')
@@ -125,6 +126,7 @@ let presetelements = {
         }, 1);
         ret.addEventListener("contextmenu", (event) => {
             var e = event || window.event;
+            //jshint -W030
             e.preventDefault && e.preventDefault();
             e.stopPropagation && e.stopPropagation();
             e.cancelBubble = true;
@@ -189,6 +191,7 @@ function handleresize() {
     let navbox = nav.getBoundingClientRect();
 
     let diff = bodrect.height - navbox.height;
+    //jshint -W018
     if (!(diff + "px" == l("#codemirror6v").style.height)) {
         //console.log("v");
         //console.log("Y",diff,l("#codemirror6v").style.height)
@@ -329,7 +332,7 @@ var Fe2 = new (class {
                 },
             };
             Object.defineProperty(files, "current", {
-                get() {
+                get:() => {
                     return currf12;
                 },
                 set: (v) => {
@@ -401,6 +404,7 @@ var Fe2 = new (class {
                                 li: [
                                     {
                                         a: [
+                                            //jshint -W014
                                             d.localfile == false
                                                 ? "download"
                                                 : "save",
@@ -763,6 +767,48 @@ var Fe2 = new (class {
                                     ["No errors detected"]
                                 )
                             );
+                            try {
+                                JSHINT(self.editor.getvalue());
+                                let data = JSHINT.data();
+                                //jshint -W082
+                            function calc(nums) {
+                                var half, len = nums.length;
+                                nums.sort(function (a, b) { return a - b; });
+                                half = Math.floor(len / 2);
+                                console.log(nums);
+                                return {
+                                  max: nums[len - 1],
+                                  med: len % 2 ? nums[half] : (nums[half - 1] + nums[half]) / 2.0
+                                };
+                              }
+                              var args = calc(data.functions.map(function (fn) { return fn.metrics.parameters; }));
+                              var stmt = calc(data.functions.map(function (fn) { return fn.metrics.statements; }));
+                              var comp = calc(data.functions.map(function (fn) { return fn.metrics.complexity; }));
+                            let statements = [
+                                `There ${self.editor.state.doc.lines===1?"is":"are"} ${self.editor.state.doc.lines} line${(self.editor.state.doc.lines===1?"":"s")} in this file.`,
+                                `There ${(data.functions.length===1?"is":"are")} ${data.functions.length} function${(data.functions.length===1?"":"s")} in this file`,
+                                `Function with the largest signature takes ${args.max} argument${args.max===1?"":"s"}, while the median is ${args.med}.`,
+                                `Largest function has ${stmt.max} statement${stmt.max===1?"":"s"} in it, while the median is ${stmt.med}.`,
+                                `The most complex function has a cyclomatic complexity value of ${comp.max} while the median is ${comp.med}.`
+                            ];
+                            let statev = l.CE("div");
+                            statev.setattr({
+                                class:"list-group list-group-flush"
+                            });
+                            //create items
+                            for (let iv of statements) {
+                                let item = l.CE("div");
+                                item.setattr({
+                                    class:"list-group-item",
+                                    style:{
+                                        color:"white"
+                                    }
+                                });
+                                item.apCh(iv);
+                                statev.apCh(item);
+                            
+                            }
+                        body1.l(".callout-info").l(".callout-body").apCh(statev);}catch(e) {}
                             //done.
                         } else if (
                             langd.cmdetect(this.files.current).toLowerCase() ===
@@ -951,14 +997,14 @@ var Fe2 = new (class {
                                     ["No errors detected"]
                                 )
                             );
-                console.log(body1)
-                                body.apCh(body1)
+                console.log(body1);
+                                body.apCh(body1);
                             }
                             eco = body.l(".callout.callout-danger");
                             wco = body.l(".callout.callout-warning");
-                            let ifo = body.l(".callout.callout-info")
+                            let ifo = body.l(".callout.callout-info");
                             btnt.disabled = false;
-                            let count = [0,0]
+                            let count = [0,0];
                             //console.log(JSHINT.errors)
                             if(JSHINT.errors && JSHINT.errors.length>0)
                             {
@@ -986,7 +1032,7 @@ var Fe2 = new (class {
                                         }
                                     }
                                 );
-                                    console.log(error)
+                                    console.log(error);
                                 if (error.code.startsWith("W")) {
                                     warnlist.apCh(item);
                                     count[1]++;
@@ -995,7 +1041,7 @@ var Fe2 = new (class {
                                     count[0]++;
                                 }
                             });
-                            if (count[0]>1) {
+                            if (count[0]>=1) {
                             eco.l(".callout-body").innerHTML = "";
 
                             eco.l(".callout-body").apCh(danglist);
@@ -1004,35 +1050,41 @@ var Fe2 = new (class {
 
                             eco.l(".callout-body").innerHTML = "No errors detected.";
                             }
-                            if (count[1]>1) {
+                            if (count[1]>=1) {
                             wco.l(".callout-body").innerHTML = "";
                             wco.l(".callout-body").apCh(warnlist);
                             
                             } else {
-                                wco.l(".callout-body").inHTML = "No warnings detected."
+                                wco.l(".callout-body").inHTML = "No warnings detected.";
                             }
                             let bv = ifo.l(".callout-body");
                             bv.inHTML = "";
                             let data = JSHINT.data();
+                            //jshint -W082
                             function calc(nums) {
-                                var half, len = nums.length
-                                nums.sort(function (a, b) { return a - b })
-                                half = Math.floor(len / 2)
-                                console.log(nums)
+                                var half, len = nums.length;
+                                nums.sort(function (a, b) { return a - b; });
+                                half = Math.floor(len / 2);
+                                console.log(nums);
                                 return {
                                   max: nums[len - 1],
                                   med: len % 2 ? nums[half] : (nums[half - 1] + nums[half]) / 2.0
-                                }
+                                };
                               }
+                              var args = calc(data.functions.map(function (fn) { return fn.metrics.parameters; }));
+                              var stmt = calc(data.functions.map(function (fn) { return fn.metrics.statements; }));
+                              var comp = calc(data.functions.map(function (fn) { return fn.metrics.complexity; }));
                             let statements = [
                                 `There ${self.editor.state.doc.lines===1?"is":"are"} ${self.editor.state.doc.lines} line${(self.editor.state.doc.lines===1?"":"s")} in this file.`,
                                 `There ${(data.functions.length===1?"is":"are")} ${data.functions.length} function${(data.functions.length===1?"":"s")} in this file`,
-
-                            ]
+                                `Function with the largest signature takes ${args.max} argument${args.max===1?"":"s"}, while the median is ${args.med}.`,
+                                `Largest function has ${stmt.max} statement${stmt.max===1?"":"s"} in it, while the median is ${stmt.med}.`,
+                                `The most complex function has a cyclomatic complexity value of ${comp.max} while the median is ${comp.med}.`
+                            ];
                             let statev = l.CE("div");
                             statev.setattr({
                                 class:"list-group list-group-flush"
-                            })
+                            });
                             //create items
                             for (let iv of statements) {
                                 let item = l.CE("div");
@@ -1041,13 +1093,13 @@ var Fe2 = new (class {
                                     style:{
                                         color:"white"
                                     }
-                                })
+                                });
                                 item.apCh(iv);
-                                statev.apCh(item)
+                                statev.apCh(item);
                             }
                             bv.apCh(
                                 statev
-                            )
+                            );
                             }
                         } else if (mode === "css") {
                             l("#Fe2_Panel").l(".offcanvas-title").innerHTML =
@@ -1089,7 +1141,7 @@ var Fe2 = new (class {
                                     ["No errors detected"]
                                 )
                             );
-                                body.apCh(body1)
+                                body.apCh(body1);
                             }
                             eco = body.l(".callout.callout-danger");
                             wco = body.l(".callout.callout-warning");
@@ -1301,12 +1353,14 @@ var Fe2 = new (class {
                 } else {
                     let recall = {
                         files: WS.getI("Fe2.files"),
+                        //jshint -W014
                         current: WS.has("Fe2.currentfile")
                             ? WS.getI("Fe2.currentfile")
                             : false,
                     };
 
                     for (let ve in recall.files) {
+                        //jshint -W083
                         let selected = () => {
                             if (recall.current != false) {
                                 //select file from WebStorage
@@ -1369,6 +1423,7 @@ var Fe2 = new (class {
                     boxShadow: "0px 0px 0px 1px rgba(255,255,255,0.172)",
                 },
             });
+            //jshint -W082
             function handle(
                 key,
                 run = function () {
