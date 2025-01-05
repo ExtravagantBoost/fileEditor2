@@ -1,8 +1,8 @@
 (() => {
-    const { EditorView } = require("codemirror")
-    const { detect, langscm,cmdetect } = langd
-    const { languages } = require("@codemirror/language-data")
-    const { Compartment, EditorState, StateEffect } = require("@codemirror/state")
+    const { EditorView } = require("codemirror");
+    const { detect, langscm,cmdetect } = langd;
+    const { languages } = require("@codemirror/language-data");
+    const { Compartment, EditorState, StateEffect } = require("@codemirror/state");
     let text = (() => {
         const { completeFromList } = require('@codemirror/autocomplete');
         const { foldNodeProp, indentNodeProp, LRLanguage, LanguageSupport } = require('@codemirror/language');
@@ -53,21 +53,21 @@
 
         return () => {
             return new LanguageSupport(TXTLANG, [TXTCOMPLETE]);
-        }
-    })()
+        };
+    })();
     let langs = ((exports) => {
         "use strict";
         exports.legacy = {};
         languages.forEach((lang) => {
             if (lang.loadFunc.toString().includes('legacy') == false) {
-                lang.load().then(l => { exports[lang.name] = l });
+                lang.load().then(l => { exports[lang.name] = l; });
             } else {
-                lang.load().then(l => { exports.legacy[lang.name] = l })
+                lang.load().then(l => { exports.legacy[lang.name] = l; });
             }
 
-        })
-        return exports
-    })({})
+        });
+        return exports;
+    })({});
     function findmode(mode) {
         //console.log(mode)
         
@@ -110,21 +110,21 @@
 
             if (typeof mode != 'string') throw new aerr('argument "mode" must be a string not ' + typeof mode);
             
-            this.modename = cmdetect(mode)
+            this.modename = cmdetect(mode);
             this.dispatch([]);//brute force the editor to refresh as CM.refresh only exists on CM5
         };
         cm.getvalue = function(lineSep = '\n') {
             //console.log(this.state.doc)
-            return this.state.doc.text.join(lineSep);
+            return this.state.doc.toJSON().join(lineSep);
         };
         cm.getSelection = function() {
             return this.state.sliceDoc(
                 this.state.selection.main.from,
-                this.state.selection.main.to)
-        }
-        cm.getCursor = function(start) {
+                this.state.selection.main.to);
+        };
+        cm.getCursor = function() {
             return this.state.selection.main.head;
-        }
+        };
         cm.getDoc = function() {
             //will return CM5 Type Object
             //console.log(this,"fasdfasdf")
@@ -153,8 +153,8 @@
                 },
                 size: this.state.doc.text.length,
                 state: this.state,
-            }
-        }
+            };
+        };
         cm.setvalue = function(text/*string||array*/) {
             let txt;
             //console.log(txt)
@@ -164,16 +164,28 @@
             if (typeof text == 'object') txt = text.join('\n');
             if (typeof text == 'string') txt = text;
             this.update([this.state.update({ changes: { from: 0, to: this.state.doc.length, insert: txt } })]);
+            setTimeout(()=>{
+              this.dispatch({
+                docChanged:true
+              });
+            });
         };
-        cm.setCursor = (pos) => cm.dispatch({selection: {anchor: pos}})
-        cm.getLine = function( n) {
-            return cm.state.doc.text[n];
-        }
-        cm.getRange = function(a, b) { cm.state.sliceDoc(a, b) }
+        cm.setCursor = (pos) => cm.dispatch({selection: {anchor: pos}});
+        cm.getLine = function(n) {
+            return cm.state.doc.line(n).text;
+        };
+        cm.getRange = function(a, b) { cm.state.sliceDoc(a, b); };
 
         cm.somethingSelected = function() {
-            return cm.state.selection.ranges.some(r => !r.empty)
-        }
+            return cm.state.selection.ranges.some(r => !r.empty);
+        };
+        cm.gotoLine = (line) => {
+          let ht = cm.defaultLineHeight * (line-1);
+          cm.scrollDOM.scrollTo({
+            top:Math.round(ht),
+            behavior:"smooth"
+          });
+        };
         cm.mode = {
             mode: {}
         };
@@ -202,11 +214,11 @@
         setTimeout(() => {
             cm.addExt(cm.languageConf.of(findmode(cm.getmode()) ? findmode(cm.getmode()) : text()));
             cm.addExt(langchange);
-            cm.dispatch([])
-        }, 0)
+            cm.dispatch([]);
+        }, 0);
     }
     require.addMod("@Fe2/LC", {
         ILC: main,
         langs
-    })
+    });
 })();

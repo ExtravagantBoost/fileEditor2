@@ -1,10 +1,13 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 
 <head>
+  <script src="eruda.js" onload="eruda.init();"></script>
     <meta charset="utf-8">
-    <meta name='viewport' content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>FileEditor2</title>
+    <!-- too many files lol-->
+    <!-- i really need to use require js-->
     <link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="icons/favicon-16x16.png">
@@ -14,35 +17,40 @@
     <meta name="theme-color" content="#282b50">
     <link rel="stylesheet" href="devicon-master/devicon-base.css">
     <!--link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css"-->
-    <link href="Bootstrap.css" rel='stylesheet'>
+    <link href="Bootstrap.css" rel="stylesheet">
     <link href="style.css" rel="stylesheet" type="text/css" />
-    <link href='bs.css' rel='stylesheet'>
+    <link href="bs.css" rel="stylesheet">
     <link href="fonts/Chillax_complete/Fonts/WEB/css/chillax.css" rel="stylesheet">
     <script src="jshint/dist/jshint.js"></script>
     <script src="process.js"></script>
     <script src="buffer.js"></script>
     <script src="stylelint.js"></script>
     <script src="FileSaver.js"></script>
+    
     <script src="prettier.js"></script>
     <script src="prettierparsers.js"></script>
     <script src="terser.js" onerror="console.log('failed to load')"></script>
     <!--start mock node env-->
     <link href="font/bootstrap-icons.css" rel="stylesheet">
     <script src="mocknode.js"></script>
+    <script src="encrypt.js"></script>
     <script src="parsers/babel.js" onerror="console.log(`failed`)"></script>
     <script src="parsers/graphql.js" onerror="console.log(`failed`)"></script>
-    <script src='codemirrorstand.js'></script>
+    <script src="codemirrorstand.js"></script>
     <script src="language-detect.js"></script>
     <script src="legacy-lang.js"></script>
     <script src="language-data.js"></script>
     <script src="langchanger.js"></script>
+    <script src="mime-detect.js"></script>
     <script src="indentmarkers.js"></script>
     <script src="hintr.js"></script>
     <script src="uiw.js"></script>
-    <script src='create-theme.js'></script>
+    <script src="create-theme.js"></script>
     <script src="moxer.js"></script>
     <script src="tooltip.js"></script>
     <script src="WS.js"></script>
+    <script src="FS.js"></script>
+    
     <script src="commonmark.js"></script>
     <meta name="apple-mobile-web-app-capable" content="yes">
     <!--prevent from making telephone numbers-->
@@ -181,6 +189,43 @@
             99%,
             100% {transform:scale(100%)}
         }
+        .drag-overlay {
+            position: fixed;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            -webkit-transition: all 0.4s 0.2s ease-in-out;
+            transition: all 0.4s 0.2s ease-in-out;
+            background:rgba(7, 7, 41,0.7);
+            opacity: 0;
+            z-index: 9999;
+            color:white;
+       }
+      .drag-overlay:not(.active) {
+        display:none;
+      }
+      .drag-overlay.active {
+            opacity: 1;
+          display:block !important;
+        }
+
+        .drag-overlay-inner {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            font-family:"Chillax-Regular";
+            -webkit-transform: translateY(-50%);
+            transform: translateY(-50%);
+            -webkit-transition: opacity 0.2s ease-in-out;
+            transition: opacity 0.2s ease-in-out;
+        }
+        .drag-overlay-inner > i.drag-overlay-icon {
+        }
        .cm-line:before {
             content: "‎";
             /*empty character to respect IOS 16.0.1 new css processing*/
@@ -286,6 +331,7 @@
     <!--uT9bmucnGTzIhHkgJGA-->
     <script src="BodyBuilder.js"></script>
     <script src='bsele.js'></script>
+    <script src="setmaker.js"></script>
     <script src="script.js"></script>
 
 

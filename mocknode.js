@@ -7,7 +7,7 @@ const require = (() => {
         //console.log(nodejs.modules)
         if (!(module in nodejs.modules)) throw new Error(`Module '${module}' does not exist, check if you misspelled `)
         return nodejs.modules[module];
-    };
+    }
     Object.defineProperty(main, 'addMod', {
         value: (name, val) => {
             if (!name) {
@@ -21,11 +21,14 @@ const require = (() => {
             } else {
                 
                     if (name in nodejs.modules) throw new Error(`Module '${modn}' already exists.`)
-                nodejs.modules[name] = val//should be object
+                nodejs.modules[name] = val;//should be object
                 //console.log(`Sucessfully added '${name}'`)
             }
         }
-    })
-    return main
-})()
+    });
+    Object.defineProperty(main, "info",{
+      get:()=>{return nodejs.modules;},
+    });
+    return main;
+})();
 window.require = require;

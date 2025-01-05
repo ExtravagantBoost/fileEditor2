@@ -1,4 +1,5 @@
-/*made by ExtravagantBoost*/
+ /*made by ExtravagantBoost*/
+//jshint esversion:8
 var l = (query) => {
 
     let element = document.querySelector(query);
@@ -17,6 +18,7 @@ l.CE = (TagName) => {
 Object.defineProperty(l, '__actions__', {
     value: {
         lookInto(dict) {
+
             //console.log(this.lookInto)
             if (typeof dict == "object") {
                 let ele = Object.entries(dict)[0];
@@ -84,9 +86,8 @@ Object.defineProperty(l, '__actions__', {
                     }
                 });
                 this.addLattrs(element);
-                return element;
+                return element;            
             }
-
         },
         addLattrs: (ele) => {
 

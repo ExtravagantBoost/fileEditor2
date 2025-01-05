@@ -33,3 +33,37 @@ html, body {
 /*
 background: linear-gradient(90deg, #4b6cb7 0%, #182848 100%);
 */
+.cm-panel.cm-search {
+        width:100%;
+        background:linear-gradient(325deg,#6b4400,1%,var(--bs-dark),95%,#6b4400);
+        border-radius:10px;
+        border-style:solid;
+        border-width:5px;
+        border-color:rgba(0,0,0,.15);
+        padding:10px;
+        color:var(--bs-white);
+      }
+      .cm-panel.cm-search .form-control {
+        font-family: monospace;
+        color:white;
+        background:transparent;
+      }
+      .cm-panel.cm-search .form-control::placeholder {
+        color:rgba(175,175,84,.5);
+        
+      }
+      .clpsebtn > button {
+        width:1.25rem;
+        height:1.25rem;
+        background-image:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='white'><path fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/></svg>");
+        background-repeat:no-repeat;
+        background-size:1.25rem 1.25rem;
+        background-color:transparent;
+        border:none;
+        transition:transform .2s ease-in-out;
+      }
+      .clpsebtn > button:not(.collapsed) {
+        background-image:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='rgba(12, 99, 228,1)'><path fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/></svg>");
+        transform:rotate(-180deg);
+        
+      }
